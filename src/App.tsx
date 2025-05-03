@@ -51,7 +51,7 @@ export const AppLayout: ParentComponent = (props) => {
 
   return (
     <Show when={isOnline()} fallback={<OfflinePage />}>
-      <div class="pb-14"> {/* Add padding to the bottom to account for the navigation footer */}
+      <div class="pb-16"> {/* Add padding to the bottom to account for the navigation footer */}
         {props.children}
       </div>
       <NavigationFooter />

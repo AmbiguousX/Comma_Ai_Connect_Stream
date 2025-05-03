@@ -48,26 +48,36 @@ const PairActivity: VoidComponent<{ onPaired: () => void }> = (props) => {
         let videoRef!: HTMLVideoElement
 
         onMount(() => {
-          const qrScanner = new QrScanner(
-            videoRef,
-            (result) => {
-              qrScanner.destroy()
-              to.pairing({ pairToken: result.data })
-            },
-            {
-              highlightScanRegion: true,
-            },
-          )
-          void qrScanner.start().catch((reason) => {
-            const error = toError(reason)
-            console.error('Error starting QR scanner', error, error.cause)
-            to.error({ error })
-          })
-          onCleanup(() => {
+          // Create a message to inform the user we'll need camera access
+          const startScanner = async () => {
             try {
-              qrScanner.destroy()
-            } catch (_) {}
-          })
+              const qrScanner = new QrScanner(
+                videoRef,
+                (result) => {
+                  qrScanner.destroy()
+                  to.pairing({ pairToken: result.data })
+                },
+                {
+                  highlightScanRegion: true,
+                }
+              )
+
+              await qrScanner.start()
+
+              onCleanup(() => {
+                try {
+                  qrScanner.destroy()
+                } catch (_) {}
+              })
+            } catch (reason) {
+              const error = toError(reason)
+              console.error('Error starting QR scanner', error, error.cause)
+              to.error({ error })
+            }
+          }
+
+          // Start the scanner which will request camera permission
+          void startScanner()
         })
 
         return (

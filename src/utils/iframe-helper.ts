@@ -21,10 +21,10 @@ export const isInIframe = (): boolean => {
 export const requestCameraPermission = async (): Promise<boolean> => {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-    
+
     // Stop the stream immediately after getting permission
     stream.getTracks().forEach(track => track.stop())
-    
+
     return true
   } catch (error) {
     console.error('Error requesting camera permission:', error)
@@ -49,14 +49,16 @@ export const requestGeolocationPermission = async (): Promise<boolean> => {
 
 /**
  * Initialize all necessary permissions for iframe functionality
+ *
+ * Note: This function no longer automatically requests permissions
+ * on load. Instead, permissions will be requested only when needed
+ * by specific features.
  */
 export const initIframePermissions = async (): Promise<void> => {
   if (isInIframe()) {
-    console.log('Application running in iframe, initializing permissions...')
-    
-    // Request permissions as needed by your application
-    // These will prompt the user for permission if needed
-    await requestCameraPermission()
-    await requestGeolocationPermission()
+    console.log('Application running in iframe, ready for permission requests when needed')
+
+    // We no longer automatically request permissions on load
+    // Permissions will be requested by specific features when needed
   }
 }

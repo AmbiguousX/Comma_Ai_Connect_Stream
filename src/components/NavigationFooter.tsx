@@ -75,27 +75,28 @@ const NavigationFooter: VoidComponent<{ class?: string }> = (props) => {
   return (
     <div
       class={clsx(
-        'fixed bottom-0 left-0 right-0 flex justify-center items-center gap-8 py-2 pb-safe z-50',
-        'bg-surface-container-high/90 backdrop-blur-sm border-t border-outline/10 elevation-1',
+        'fixed bottom-0 left-0 right-0 flex justify-center items-center pb-4 pb-safe z-50',
         props.class
       )}
     >
-      <IconButton
-        name="arrow_back"
-        onClick={goBack}
-        class={clsx(
-          'transition-opacity duration-200',
-          canGoBack() ? 'opacity-100' : 'opacity-30 cursor-not-allowed'
-        )}
-      />
-      <IconButton
-        name="arrow_forward"
-        onClick={goForward}
-        class={clsx(
-          'transition-opacity duration-200',
-          canGoForward() ? 'opacity-100' : 'opacity-30 cursor-not-allowed'
-        )}
-      />
+      <div class="flex items-center gap-2 bg-surface-container-high rounded-full px-2 py-1 elevation-1">
+        <IconButton
+          name="arrow_back"
+          onClick={goBack}
+          class={clsx(
+            'transition-opacity duration-200',
+            canGoBack() ? 'opacity-100' : 'opacity-30 cursor-not-allowed'
+          )}
+        />
+        <IconButton
+          name="arrow_forward"
+          onClick={goForward}
+          class={clsx(
+            'transition-opacity duration-200',
+            canGoForward() ? 'opacity-100' : 'opacity-30 cursor-not-allowed'
+          )}
+        />
+      </div>
     </div>
   )
 }
